@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1570198700951.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "196716348",
+    "id" : "D29310C1",
+    "lastKnownWriteTime" : 1570197264,
+    "last_content_update" : 1570197264,
+    "path" : "~/Manuscripts/Eurodeer/eurodeer/code/1.load.data.R",
+    "project_path" : "code/1.load.data.R",
+    "properties" : {
+        "cursorPosition" : "106,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
