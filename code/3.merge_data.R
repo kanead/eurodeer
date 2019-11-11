@@ -6,17 +6,20 @@
 #' merging data
 ############################################################################
 
-#' make it tidy
-summary_data_tidy <- summary_data %>% gather(key = 'statistic', value = 'value', ndvi_Mean:corine_Mode)
-
-#' merge with home range data
+#' load in HR data
 hr <- read_csv("results/home_range_month.csv" , col_names = TRUE)
-head(hr)
 
-hr_env_data <- merge(hr,summary_data,c("identifier"))
+#' load in environmental data 
+env <- read_csv("results/env_data.csv" , col_names = TRUE)
+
+#' load in activity data
+activity <- read_csv("results/Activity_data_byMonth.csv" , col_names = TRUE)
+
+#' merge the first 2
+merge1 <- merge(hr,env,c("identifier")) %>% select(-id.x, -id.y)
+head(merge1)
 
 #' merge with activity data
-activity <- read_csv("results/Activity_data_byMonth.csv" , col_names = TRUE)
 
 #' make an identifier so it matches the other output
 #' add a leading zero 
@@ -26,27 +29,8 @@ activity$identifier <- paste(activity$animals_id, activity$yr_month, sep = "_")
 activity <- activity %>% select(-yr_month)
 head(activity)
 
-#' we want to merge this with hr_env_data
-head(hr_env_data)
-all_data <- merge(hr_env_data,activity,c("identifier")) %>% select(-id.x, -id.y)
+all_data <- merge(merge1,activity,c("identifier")) 
 head(all_data)
 
-#' make it tidy
-all_data_tidy1 <- all_data %>% gather(key = 'accelerometry', value = 'measure', mean_act:min_act)
-
-#' make it tidier
-all_data_tidy2 <- all_data_tidy1 %>% gather(key = 'home_range', value = 'area', kdearea:mcp)
-
-#' go from long format to wide
-data_wide <- spread(all_data_tidy2, statistic, value)
-data_wide
-
-data_wider <- spread(data_wide, statistic, value)
-data_wide
-
 #' export the results
-write.csv(summary_data, "results/env_data.csv", row.names = F)
-write.csv(summary_data_tidy, "results/env_data_tidy.csv", row.names = F)
-write.csv(hr_env_data, "results/hr_env_data.csv", row.names = F)
-write.csv(activity, "results/activity.csv", row.names = F)
 write.csv(all_data, "results/combined_data.csv", row.names = F)
