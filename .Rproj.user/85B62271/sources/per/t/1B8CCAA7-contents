@@ -195,13 +195,14 @@ short_months
 short_months$yr_month
 
 #' we merge the two and force all = TRUE so even the values that don't have a count
-#' are included, this allows us to extract the tracks we won't that have ~ a month
+#' are included, this allows us to extract the tracks that have ~ a month
 #' of coverage 
 test <- merge(short_months, trk4, all = TRUE)
 length(test$id)
 length(trk4$id)
 
-#' keep only the rows with the NAs which are the counts > 28
+#' keep only the rows with the NAs which are the counts > 28 i.e. data with ~ a month
+#' of coverage
 trk5<- test %>% filter_all(any_vars(is.na(.))) 
 
 #' now create a unique identifier that has the ID, year and month
