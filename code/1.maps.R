@@ -3,27 +3,8 @@
 #' 2019/10/04
 #' Adam Kane, Enrico Pirotta & Barry McMahon
 #' https://mecoco.github.io/ame1.html
-#' loading, cleaning and plotting the GPS data
+#' plotting the GPS data
 ############################################################################
-#' Load the required packages
-library(tidyverse)
-
-#' Section 1: Load the data ----
-mydata <- read_csv("data/gpsdata_mecoco.csv" , col_names = TRUE)
-#' take a look at what we've loaded
-glimpse(mydata)
-head(mydata)
-tail(mydata)
-summary(mydata)
-str(mydata)
-levels(as.factor(mydata$animals_id))
-#' 1,892,424 observations of 15 variables
-#' looks like there are some NAs in the data
-#' let's drop them
-mydata <- mydata %>% drop_na()
-#' reduces the data set down to 1,788,743 observations
-#' how many data points are in each of the studies?
-mydata %>% group_by(study_areas_id) %>% summarise(duration = length(study_areas_id))
 
 #' Section 2: Plot the data ----
 #' using leaflet
@@ -81,8 +62,8 @@ studies <-c("1")
 study1 <- mydata %>% filter(study_areas_id %in% studies) %>% droplevels()
 
 pal1 <- colorFactor(palette = 'Set3',
-                   domain = study1$animals_id)
-  m3 <- leaflet(study1) %>%
+                    domain = study1$animals_id)
+m3 <- leaflet(study1) %>%
   addTiles()  %>%
   # setView( lat=-27, lng=170 , zoom=4) %>%
   addProviderTiles("Esri.WorldImagery") %>%
@@ -103,4 +84,3 @@ pal1 <- colorFactor(palette = 'Set3',
     opacity = 1
   )
 m3
-

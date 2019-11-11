@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573469036241.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "1B8CCAA7",
+    "lastKnownWriteTime" : 1573494306,
+    "last_content_update" : 1573494306898,
+    "path" : "~/Manuscripts/Eurodeer/eurodeer/code/2.regularization.R",
+    "project_path" : "code/2.regularization.R",
+    "properties" : {
+        "cursorPosition" : "259,0",
+        "scrollLine" : "231"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

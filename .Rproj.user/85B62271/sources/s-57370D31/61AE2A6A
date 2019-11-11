@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573476546225.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "61AE2A6A",
+    "lastKnownWriteTime" : 1573494717,
+    "last_content_update" : 1573494717589,
+    "path" : "~/Manuscripts/Eurodeer/eurodeer/code/2.summarise_covariates.R",
+    "project_path" : "code/2.summarise_covariates.R",
+    "properties" : {
+        "cursorPosition" : "101,45",
+        "scrollLine" : "79",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

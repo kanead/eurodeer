@@ -1,0 +1,21 @@
+ID = c(rep("A", 5), rep("B", 5))
+Month = c(
+  1,
+  1,
+  2,
+  2,
+  3,
+  1,
+  2,
+  2,
+  3,
+  3
+)
+Index = c("X1", "X1", "X2", "X2", "X3", "X1", "X2", "X2", "X2", "X3")
+df = data.frame(ID, Month, Index, stringsAsFactors =  FALSE)
+df$Month <- as.factor(df$Month)
+df
+
+df %>%
+  group_by(ID, Month) %>%
+  summarise(count = n_distinct(Index)) %>% filter(count < 2) %>% droplevels()

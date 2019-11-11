@@ -1,0 +1,6 @@
+ 
+How to summarise Corine? 
+
+"Then, we calculated the percentage cover of each land cover class as well as the mean NDVI within all home ranges and pseudo home ranges to characterize home range composition."
+
+Zurell, D., Von Wehrden, H., Rotics, S., Kaatz, M., Groß, H., Schlag, L., ... & Nathan, R. (2018). Home range size and resource use of breeding and non-breeding white storks along a land use gradient. Frontiers in Ecology and Evolution, 6, 79.

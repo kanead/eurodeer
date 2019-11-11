@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1573486290572.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EFF79546",
+    "lastKnownWriteTime" : 1573486343,
+    "last_content_update" : 1573486343506,
+    "path" : "~/Manuscripts/Eurodeer/eurodeer/code/3.merge_data.R",
+    "project_path" : "code/3.merge_data.R",
+    "properties" : {
+        "cursorPosition" : "47,45",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
