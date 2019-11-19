@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574172912551.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "2BB1FBC",
+    "lastKnownWriteTime" : 1574183880,
+    "last_content_update" : 1574183880988,
+    "path" : "~/Manuscripts/Eurodeer/eurodeer/code/5.statistical_model.R",
+    "project_path" : "code/5.statistical_model.R",
+    "properties" : {
+        "cursorPosition" : "34,16",
+        "scrollLine" : "8",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
