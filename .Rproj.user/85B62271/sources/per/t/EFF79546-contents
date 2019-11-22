@@ -14,7 +14,11 @@ hr <- read_csv("results/home_range_month.csv" , col_names = TRUE)
 env <- read_csv("results/env_data.csv" , col_names = TRUE)
 
 #' load in activity data
-activity <- read_csv("results/Activity_data_byMonth.csv" , col_names = TRUE)
+#' activity <- read_csv("results/Activity_data_byMonth.csv" , col_names = TRUE)
+
+#' new 5 min interpolated activity data
+activity <- read_csv("results/Activity_data_byMonth_5min.csv" , col_names = TRUE)
+head(activity)
 
 #' merge the first 2
 merge1 <- merge(hr,env,c("identifier")) %>% select(-id.x, -id.y)
@@ -24,10 +28,14 @@ head(merge1)
 
 #' make an identifier so it matches the other output
 #' add a leading zero 
-activity$month <- sprintf("%02d",activity$month) # fix to 2 characters 
-activity$yr_month <- paste(activity$year, activity$month, sep = "/")
-activity$identifier <- paste(activity$animals_id, activity$yr_month, sep = "_")
-activity <- activity %>% select(-yr_month)
+#activity$month <- sprintf("%02d",activity$month) # fix to 2 characters 
+#activity$yr_month <- paste(activity$year, activity$month, sep = "/")
+#activity$identifier <- paste(activity$animals_id, activity$yr_month, sep = "_")
+#activity <- activity %>% select(-yr_month)
+#head(activity)
+
+activity$identifier <- sub(" ", "/", sub(" ", "_", activity$group)) 
+activity <- activity %>% select(-group)
 head(activity)
 
 merge2 <- merge(merge1,activity,c("identifier")) 
@@ -68,3 +76,4 @@ filter(all_data, study_areas_id == 8)
 
 #' export the results
 write.csv(all_data, "results/combined_data.csv", row.names = F)
+
