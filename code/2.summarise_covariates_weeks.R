@@ -3,7 +3,7 @@
 #' 2019/11/04
 #' Adam Kane, Enrico Pirotta & Barry McMahon
 #' https://mecoco.github.io/ame1.html
-#' summarise the covariates
+#' summarise the covariates by week
 ############################################################################
 
 library(adehabitatLT)
@@ -23,8 +23,7 @@ library(sp)
 #' mydata$dups <- ind2
 #' mydata <- filter(mydata, dups == "FALSE")
 #' mydata
-
-rm(ind2)
+#' rm(ind2)
 
 #' rename some of the columns for data manipulation
 #' order is new name old name
@@ -49,34 +48,44 @@ mydata <- select(mydata, New_time, long, lat, id, study, ndvi, altitude, slope, 
 mydata <- rename(mydata, time = New_time)
 mydata
 
-#' we want to work with monthly averages 
+#' we want to work with weekly averages 
 #' some animals were tracked for over a year
 #' so we must include a year-month-id grouping variable
 #' first combine year and month
 mydata$yr_month <- format(mydata$time, format = "%Y/%m")
 mydata$yr_month  <- as.factor(mydata$yr_month)
 
-#' we also need a year-month-day variable to see what the coverage is like over the course of
-#' a month for each individual
-mydata$yr_month_day <- format(mydata$time, format = "%Y/%m/%d")
-mydata$yr_month_day <- as.factor(mydata$yr_month_day)
-head(mydata)
 
-#' count the number of unique days when grouped by id and and month
-short_months <- mydata %>%
-  group_by(id, yr_month) %>%
-  summarise(count = n_distinct(yr_month_day)) %>% filter(count < 28) %>% droplevels()
-short_months
-short_months$yr_month
+mydata$yr <- format(mydata$time, format = "%Y")
+mydata$yr <- as.factor(mydata$yr)
+
+mydata$week <- week(mydata$time)
+mydata$week <- as.factor(mydata$week)
+
+mydata$yr_week <- paste(mydata$yr,mydata$week, sep = "_")
+mydata
+
+#' we also need a year-week-day variable to see what the coverage is like over the course of
+#' a week for each individual
+mydata$day <- day(mydata$time)
+mydata$day <- as.factor(mydata$day)
+mydata$yr_week_day <- paste(mydata$yr_week, mydata$day, sep = "_")
+
+#' count the number of unique days when grouped by id and and year
+short_weeks <- mydata %>%
+  group_by(id, yr_week) %>%
+  summarise(count = n_distinct(yr_week_day)) %>% filter(count < 5) %>% droplevels()
+short_weeks
+short_weeks$yr_week
 
 #' we merge the two and force all = TRUE so even the values that don't have a count
 #' are included, this allows us to extract the tracks that have ~ a month
 #' of coverage 
-mydata2 <- merge(short_months, mydata, all = TRUE)
+mydata2 <- merge(short_weeks, mydata, all = TRUE)
 length(mydata$id)
 length(mydata2$id)
 
-#' keep only the rows with the NAs which are the counts > 28 i.e. data with ~ a month
+#' keep only the rows with the NAs which are the counts > 5 i.e. data with ~ a week
 #' of coverage
 mydata2<- mydata2 %>% filter_all(any_vars(is.na(.))) 
 head(mydata2)
@@ -93,7 +102,7 @@ mydata2 %>% filter(id == 1453)
 
 #' now create a unique identifier that has the ID, year and month
 #' We will use these to summarise the covariates 
-mydata2$identifier <- paste(mydata2$id, mydata2$yr_month, sep = "_")
+mydata2$identifier <- paste(mydata2$id, mydata2$yr_week, sep = "_")
 mydata2$identifier <- as.factor(mydata2$identifier)
 head(mydata2)
 
@@ -116,11 +125,11 @@ summary_data <-
   separate(
     summary_data,
     col = identifier,
-    into = c("id", "NA"),
+    into = c("id", "NA","week"),
     sep = "_",
     remove = "FALSE"
   ) %>%  select(-"NA")
 
 #' export the results
-write.csv(summary_data, "results/env_data.csv", row.names = F)
+write.csv(summary_data, "results/env_data_week.csv", row.names = F)
 

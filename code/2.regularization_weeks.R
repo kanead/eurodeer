@@ -3,12 +3,12 @@
 #' 2019/11/04
 #' Adam Kane, Enrico Pirotta & Barry McMahon
 #' https://mecoco.github.io/ame1.html
-#' regularise the data
+#' regularise the data 
 ############################################################################
 
 # 1. break up tracks if they exceed a day (no need to remove rare data)
 # 2. redis at a period of 4 hours
-# 3. eliminate months without sufficient coverage
+# 3. eliminate weeks without sufficient coverage
 # 4. glue them back together
 
 library(adehabitatLT)
@@ -175,39 +175,49 @@ trk4 <-
   )
 
 
-#' we need to extract monthly home ranges, some animals were tracked for over a year
-#' so we must include a year-month-id grouping variable
-#' first combine year and month
-trk4$yr_month <- format(trk4$t_, format = "%Y/%m")
-trk4$yr_month <- as.factor(trk4$yr_month)
+#' we need to extract weekly home ranges, some animals were tracked for over a year
+#' so we must include a year-week-id grouping variable
+#' first combine year and week
+trk4$yr <- format(trk4$t_, format = "%Y")
+trk4$yr <- as.factor(trk4$yr)
 
-#' we also need a year-month-day variable to see what the coverage is like over the course of
-#' a month for each individual
-trk4$yr_month_day <- format(trk4$t_, format = "%Y/%m/%d")
-trk4$yr_month_day <- as.factor(trk4$yr_month_day)
-head(trk4)
+trk4$week <- week(trk4$t_)
+trk4$week <- as.factor(trk4$week)
 
-#' count the number of unique days when grouped by id and and month
-short_months <- trk4 %>%
-  group_by(id, yr_month) %>%
-  summarise(count = n_distinct(yr_month_day)) %>% filter(count < 28) %>% droplevels()
-short_months
-short_months$yr_month
+trk4$yr_week <- paste(trk4$yr,trk4$week, sep = "_")
+trk4
+
+#' we also need a year-week-day variable to see what the coverage is like over the course of
+#' a week for each individual
+trk4$day <- day(trk4$t_)
+trk4$day <- as.factor(trk4$day)
+trk4$yr_week_day <- paste(trk4$yr_week, trk4$day, sep = "_")
+
+#' count the number of unique days when grouped by id and and week
+short_weeks <- trk4 %>%
+  group_by(id, yr_week) %>%
+  summarise(count = n_distinct(yr_week_day)) %>% filter(count < 5) %>% droplevels()
+short_weeks
+short_weeks$yr_week
+
+#' take a look at one track that didn't meet the cutoff and has only two days of coverage 
+#' for week 8 in 2013
+filter(trk4, id == "1402" & yr_week == "2013_8")
 
 #' we merge the two and force all = TRUE so even the values that don't have a count
-#' are included, this allows us to extract the tracks that have ~ a month
+#' are included, this allows us to extract the tracks that have ~ a week
 #' of coverage 
-test <- merge(short_months, trk4, all = TRUE)
+test <- merge(short_weeks, trk4, all = TRUE)
 length(test$id)
 length(trk4$id)
 
-#' keep only the rows with the NAs which are the counts > 28 i.e. data with ~ a month
+#' keep only the rows with the NAs which are the counts > 5 i.e. data with ~ a week
 #' of coverage
 trk5<- test %>% filter_all(any_vars(is.na(.))) 
 
-#' now create a unique identifier that has the ID, year and month
+#' now create a unique identifier that has the ID, year and week
 #' We will use these to build home ranges
-trk5$identifier <- paste(trk5$id, trk5$yr_month, sep = "_")
+trk5$identifier <- paste(trk5$id, trk5$yr_week, sep = "_")
 trk5$identifier <- as.factor(trk5$identifier)
 head(trk5)
 
@@ -231,6 +241,9 @@ length(levels(as.factor(trk5$id)))
 length(levels(as.factor(trk5$id)))
 sapply(split(trk5$x_, trk5$identifier), length)
 
+#' stick on the month for future analysis
+trk5$month <- month(trk5$t_)
+trk5
 #' Calculate home range size
 #' first for MCP
 mcps <- trk5 %>% group_by(identifier) %>%  nest(-identifier) %>%
@@ -254,25 +267,23 @@ kde_95
 kde_95$mcp <- mcp_95$area
 
 #' rename
-home_range_month <- kde_95
-head(home_range_month)
-tail(home_range_month)
+home_range_week <- kde_95
+head(home_range_week)
+tail(home_range_week)
 
-#' add an id column
-home_range_month <-
+#' add an id column and a week column
+home_range_week <-
   separate(
-    home_range_month,
+    home_range_week,
     col = identifier,
-    into = c("id", "NA"),
+    into = c("id", "NA", "week"),
     sep = "_",
-    remove = "FALSE"
+    remove = "FALSE",
+    extra = "merge"
   ) %>%  select(-"NA")
 
-#' check the data with short_months to make sure no home ranges were collected
-#' for month long intervals where less than 28 days had data
-#' e.g. id 768   for year/month 2005/10 had only 13 days
-#' this does not show up in the home_range_month data
-#' filter(home_range_month, id == 768)
+#' check the data with short_weeks to make sure no home ranges were collected
+#' for week long intervals with fewer than 5 days of data
 
 #' export the results
-write.csv(home_range_month, "results/home_range_month.csv", row.names = F)
+write.csv(home_range_week, "results/home_range_week.csv", row.names = F)

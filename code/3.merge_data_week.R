@@ -3,15 +3,15 @@
 #' 2019/11/04
 #' Adam Kane, Enrico Pirotta & Barry McMahon
 #' https://mecoco.github.io/ame1.html
-#' merging data
+#' merging data for week
 ############################################################################
 library(tidyverse)
 library(lubridate)
 #' load in HR data
-hr <- read_csv("results/home_range_month.csv" , col_names = TRUE)
+hr <- read_csv("results/home_range_week.csv" , col_names = TRUE)
 
 #' load in environmental data 
-env <- read_csv("results/env_data.csv" , col_names = TRUE)
+env <- read_csv("results/env_data_week.csv" , col_names = TRUE)
 
 #' load in activity data
 #' activity <- read_csv("results/Activity_data_byMonth.csv" , col_names = TRUE)
