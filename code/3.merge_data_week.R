@@ -87,5 +87,5 @@ names(all_data)
 all_data <- all_data %>% rename(week = week.x, mean_day_length = Mean)
 
 #' export the results
-write.csv(all_data, "results/combined_data.csv", row.names = F)
+write.csv(all_data, "results/combined_data_week.csv", row.names = F)
 
