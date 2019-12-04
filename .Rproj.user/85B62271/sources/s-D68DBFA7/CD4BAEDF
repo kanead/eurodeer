@@ -5,13 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2646340521",
+    "hash" : "0",
     "id" : "CD4BAEDF",
     "lastKnownWriteTime" : 1574849641,
     "last_content_update" : 1574849641,
     "path" : "~/Manuscripts/Eurodeer/eurodeer/code/4.activity_analysis_interpolated_weekly.R",
     "project_path" : "code/4.activity_analysis_interpolated_weekly.R",
     "properties" : {
+        "cursorPosition" : "22,74",
+        "scrollLine" : "8"
     },
     "relative_order" : 2,
     "source_on_save" : false,

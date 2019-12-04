@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1575460441632.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "4ADB4985",
+    "lastKnownWriteTime" : 1575466119,
+    "last_content_update" : 1575466119271,
+    "path" : "~/Manuscripts/Eurodeer/eurodeer/code/5.analysis_interpolated_weekly.R",
+    "project_path" : "code/5.analysis_interpolated_weekly.R",
+    "properties" : {
+        "cursorPosition" : "115,0",
+        "scrollLine" : "94"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
