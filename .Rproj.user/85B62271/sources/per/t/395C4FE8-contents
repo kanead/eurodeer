@@ -1,0 +1,73 @@
+#' Overlap with Protected Areas
+# load packages
+library(wdpar)
+library(countrycode)
+library(sf)
+library(dplyr)
+
+# download global data
+global_raw_data <- wdpa_fetch("global", wait = TRUE, download_dir = "C:\\Users\\Adam Kane\\Documents\\Methods\\GIS\\Shapefiles")
+
+# subset data to include only Liechtenstein
+lie_raw_data2 <- global_raw_data %>% filter(ISO3 == "LIE")
+
+#' clean the data
+lie_clean_data2 <- wdpa_clean(lie_raw_data2)
+
+# plot data
+plot(lie_clean_data2)
+
+pts <- st_sample(lie_raw_data2, size = 750)
+
+lengths(st_intersects(lie_raw_data2, pts))
+
+#' first area
+plot(lie_raw_data2[1, 1], reset = FALSE, col = "grey")
+plot(pts, add = TRUE)
+
+#' second area
+plot(lie_raw_data2[2, 1], reset = FALSE, col = "red")
+plot(pts, add = TRUE)
+
+#' third area
+plot(lie_raw_data2[3, 1], reset = FALSE, col = "white")
+plot(pts, add = TRUE)
+
+#' fourth area
+plot(lie_raw_data2[4, 1], reset = FALSE, col = "blue")
+plot(pts, add = TRUE)
+
+#' 40th area
+plot(lie_raw_data2[40, 1], reset = FALSE, col = "cyan")
+plot(pts, add = TRUE)
+
+
+mydata <- read.csv("C:\\Users\\Adam Kane\\Documents\\Manuscripts\\vulture_habitat\\regularised\\swazi_reg.csv", header = T, sep = ",")
+head(mydata)
+
+# subset data to include only Eswatini
+swz_raw_data <- global_raw_data %>% filter(ISO3 == "SWZ")
+plot(swz_raw_data)
+class(swz_raw_data)
+
+#' first area - Emantini
+plot(swz_raw_data[1, 1], reset = FALSE, col = "grey")
+#' first area - Hlane
+plot(swz_raw_data[4, 1], reset = FALSE, col = "grey")
+
+#' test overlap with dummy points 
+(sites <-
+    data.frame(
+      longitude = c(31.8800,31.8801),
+      latitude = c(-26.2500, -26.2522)
+    ))
+
+(sites <- st_as_sf(
+  sites,
+  coords = c("longitude", "latitude"),
+  crs = 4326,
+  agr = "constant"
+))
+plot(swz_raw_data[4, 1], reset = FALSE, col = "grey")
+plot(sites, add = TRUE)
+

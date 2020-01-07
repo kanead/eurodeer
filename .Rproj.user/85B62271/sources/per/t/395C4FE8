@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1576592984473.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3210032176",
+    "id" : "395C4FE8",
+    "lastKnownWriteTime" : 1576595535,
+    "last_content_update" : 1576595535663,
+    "path" : "~/Methods/GIS/spatial_points_overlap.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "55,53",
+        "scrollLine" : "27",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
